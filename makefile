@@ -12,7 +12,7 @@ CFLAGS = -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Wc++14-compat -
 LDFLAGS =
 OBJDIR = obj
 CC = g++
-SOURCES = main.cpp rectangle_array.cpp pointer_array.cpp
+SOURCES = main.cpp rectangle_array.cpp pointer_array.cpp swap_func.cpp comp_func.cpp
 OBJECTS = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 EXECUTABLE = binary_file
 

@@ -9,7 +9,7 @@
 #define BLUE "\033[34m"
 #define MAGENTA "\033[35m"
 #define CYAN "\033[36m"
-#define WHITE "\033[37m"
+#define GREY "\033[37m"
 
 #define PrintColor(color, arg) printf(color arg BASE)
 #define PrintColorVar(color, arg, ...) printf(color arg BASE, __VA_ARGS__)
