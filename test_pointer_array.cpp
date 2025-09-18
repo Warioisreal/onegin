@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #include "color_lib.h"
-#include "pointer_array.h"
+#include "test_pointer_array.h"
 
 
 char*** CreatePtrArr(char*** text,
@@ -13,7 +13,7 @@ char*** CreatePtrArr(char*** text,
 {
     assert (text != nullptr);
 
-    FILE* file = fopen(filename, "r");
+    FILE* file = fopen(filename, "rb");
 
     char* buffer_line = nullptr;
     size_t buffer_line_size = 0;

@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #include "color_lib.h"
-#include "rectangle_array.h"
+#include "test_rectangle_array.h"
 
 
 char* CreateRectArr(char* text,
@@ -14,7 +14,7 @@ char* CreateRectArr(char* text,
 {
     assert (text != nullptr);
 
-    FILE* file = fopen(filename, "r");
+    FILE* file = fopen(filename, "rb");
 
     char* buffer_line = nullptr;
     size_t buffer_line_size = 0;

@@ -4,22 +4,26 @@
 #include "line_struct.h"
 
 
-void BufferToText(struct OneginStr** text, const char* buffer) {
+void BufferToText(struct Str** text, char* buffer) {
 
     assert (text != nullptr);
     assert (buffer != nullptr);
 
-    char* ptr1 = (char*)buffer;
-    char* ptr2 = strchr(ptr1, '\n');
+    char* str_start = buffer;
+    char* str_end = strchr(str_start, '\n');
 
     size_t pos = 0;
-    while (ptr2 != nullptr) {
-        if (ptr2 - ptr1 > 1) {
-            (*text)[pos] = {ptr1, (size_t)(ptr2 - ptr1)};
+
+    size_t dif = 0;
+    while (str_end != nullptr) {
+        dif = (size_t)(str_end - str_start);
+
+        if (dif > 1) {
+            (*text)[pos] = {str_start, dif};
             pos++;
         }
-        *ptr2 = '\0';
-        ptr1 = ptr2 + 1;
-        ptr2 = strchr(ptr1, '\n');
+        *str_end = '\0';  // replace: \n -> \0
+        str_start = str_end + 1;
+        str_end   = strchr(str_start, '\n');
     }
 }

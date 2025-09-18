@@ -2,6 +2,6 @@
 #define _WORK_WITH_BUFFER_H_
 
 
-void BufferToText(struct OneginStr** text, const char* buffer);
+void BufferToText(struct Str** text, char* buffer);
 
 #endif // _WORK_WITH_BUFFER_H_
