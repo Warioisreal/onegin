@@ -1,5 +1,5 @@
-#ifndef _LINE_STRUCT_H_
-#define _LINE_STRUCT_H_
+#ifndef _TEXT_STRUCTS_H_
+#define _TEXT_STRUCTS_H_
 
 #include <stdio.h>
 
@@ -15,4 +15,4 @@ struct Str {
     size_t str_size = 0;
 };
 
-#endif // _LINE_STRUCT_H_
+#endif // _TEXT_STRUCTS_H_

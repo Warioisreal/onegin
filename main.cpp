@@ -6,11 +6,14 @@
 
 #include "color_lib.h"
 #include "comparator_func.h"
+#include "output.h"
 #include "sort_func.h"
 #include "struct_pointer_array.h"
+#include "work_with_buffer.h"
 
 /*
 -----------------testing different types of arrays------------------------
+              ----------**trash coding**-------------
 #include "test_pointer_array.h"
 #include "test_srectangle_array.h"
 --------------------------------------------------------------------------
@@ -19,37 +22,37 @@
 
 int main(void) {
 
-    struct TextStorage textdata = {.filename = "test.txt"};
+    struct TextStorage textdata = {.filename = "onegin.txt"};
     char* buffer = nullptr;
 
     int error = MakeTextStorage(&buffer, &textdata);
 
     if (error) { return 1; }
 
+    FILE* output_file = nullptr;
+    output_file = StartOutput(&output_file);
+
+    if (output_file == nullptr) { return 1; }
+
     BubbleSort(textdata.text, textdata.lines_count, sizeof(struct Str), Comparator);
 
-    PrintText(textdata.text, textdata.lines_count);
-
-    printf("\n");
+    PrintText(output_file, textdata.text, textdata.lines_count);
 
     qsort(textdata.text, textdata.lines_count, sizeof(struct Str), ReverseComparator);
 
-    PrintText(textdata.text, textdata.lines_count);
+    PrintText(output_file, textdata.text, textdata.lines_count);
 
-    printf("\n");
+    PrintOrigText(output_file, buffer, textdata.lines_count);
 
-    PrintOrigText(buffer, textdata.lines_count);
+    DestroyTextStorage(&textdata, sizeof(textdata));
 
-    //DestroyTextStorage();
+    EndOutput(output_file);
 
-    free(textdata.text);
-    textdata.text = nullptr;
-
-    free(buffer);
-    buffer = nullptr;
+    FreeBuffer(&buffer);
 
 /*
 -----------------testing different types of arrays------------------------
+              ----------**trash coding**-------------
     const size_t strf_count = 10; // [368]
     const size_t strf_size = 14;
     const ssize_t line_size = 60;

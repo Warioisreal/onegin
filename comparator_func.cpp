@@ -1,8 +1,13 @@
 #include <ctype.h>
+#include <assert.h>
 
-#include "line_struct.h"
+#include "text_structs.h"
 
 int Comparator(const void* ptr1, const void* ptr2) {
+
+    assert (ptr1 != nullptr);
+    assert (ptr2 != nullptr);
+
     const struct Str* line1 = (const struct Str*)(ptr1);
     const struct Str* line2 = (const struct Str*)(ptr2);
 
@@ -33,6 +38,10 @@ int Comparator(const void* ptr1, const void* ptr2) {
 
 
 int ReverseComparator(const void* ptr1, const void* ptr2) {
+
+    assert (ptr1 != nullptr);
+    assert (ptr2 != nullptr);
+
     const struct Str* line1 = (const struct Str*)(ptr1);
     const struct Str* line2 = (const struct Str*)(ptr2);
 

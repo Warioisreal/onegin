@@ -2,6 +2,7 @@
 #define _WORK_WITH_BUFFER_H_
 
 
-void BufferToText(struct Str** text, char* buffer);
+int BufferToText(struct Str** text, char* buffer, const size_t buf_size);
+void FreeBuffer(char** buffer);
 
 #endif // _WORK_WITH_BUFFER_H_

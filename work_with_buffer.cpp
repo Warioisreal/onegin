@@ -1,10 +1,12 @@
 #include <string.h>
 #include <assert.h>
 
-#include "line_struct.h"
+#include "text_structs.h"
+
+#include "work_with_buffer.h"
 
 
-void BufferToText(struct Str** text, char* buffer) {
+int BufferToText(struct Str** text, char* buffer, const size_t buf_size) {
 
     assert (text != nullptr);
     assert (buffer != nullptr);
@@ -25,5 +27,18 @@ void BufferToText(struct Str** text, char* buffer) {
         *str_end = '\0';  // replace: \n -> \0
         str_start = str_end + 1;
         str_end   = strchr(str_start, '\n');
+
+        if (str_end > &buffer[buf_size - 1]) { return 0; }
     }
+    return 1;
 }
+
+
+void FreeBuffer(char** buffer) {
+
+    assert (buffer != nullptr);
+
+    free(*buffer);
+    *buffer = nullptr;
+}
+
