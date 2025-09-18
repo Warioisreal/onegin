@@ -3,6 +3,9 @@
 
 #include "text_structs.h"
 
+#include "comparator_func.h"
+
+
 int Comparator(const void* ptr1, const void* ptr2) {
 
     assert (ptr1 != nullptr);

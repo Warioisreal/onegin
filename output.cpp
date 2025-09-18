@@ -10,10 +10,12 @@ FILE* StartOutput(FILE** file) {
 
     assert (file != nullptr);
 
-    *file = fopen("output.txt", "w");
+    const char* filename = "output.txt";
+
+    *file = fopen(filename, "wb");
 
     if (*file == nullptr) {
-        PrintColor(RED, "output file open error\n");
+        PrintColorVar(RED, "output file open error: \'%s\'\n", filename);
         return nullptr;
     }
     return *file;

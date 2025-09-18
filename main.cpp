@@ -3,8 +3,8 @@
 #include <ctype.h>
 
 #include "text_structs.h"
-
 #include "color_lib.h"
+
 #include "comparator_func.h"
 #include "output.h"
 #include "sort_func.h"
@@ -34,17 +34,17 @@ int main(void) {
 
     if (output_file == nullptr) { return 1; }
 
-    BubbleSort(textdata.text, textdata.lines_count, sizeof(struct Str), Comparator);
+    BubbleSort(textdata.text, textdata.lines_count, sizeof(struct LineParams), Comparator);
 
     PrintText(output_file, textdata.text, textdata.lines_count);
 
-    qsort(textdata.text, textdata.lines_count, sizeof(struct Str), ReverseComparator);
+    qsort(textdata.text, textdata.lines_count, sizeof(struct LineParams), ReverseComparator);
 
     PrintText(output_file, textdata.text, textdata.lines_count);
 
     PrintOrigText(output_file, buffer, textdata.lines_count);
 
-    DestroyTextStorage(&textdata, sizeof(textdata));
+    DestroyTextStorage(&textdata);
 
     EndOutput(output_file);
 
@@ -53,7 +53,7 @@ int main(void) {
 /*
 -----------------testing different types of arrays------------------------
               ----------**trash coding**-------------
-    const size_t strf_count = 10; // [368]
+    const size_t strf_count = 10; // [367]
     const size_t strf_size = 14;
     const ssize_t line_size = 60;
 
