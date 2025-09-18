@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <ctype.h>
 
+#include "line_struct.h"
+
 #include "comparator_func.h"
 #include "color_lib.h"
 #include "pointer_array.h"
@@ -11,14 +13,10 @@
 #include "swap_func.h"
 #include "work_with_buffer.h"
 
-struct OneginStr {
-    char* ptr = nullptr;
-    size_t str_size = 0;
-};
 
 void BubbleSort(void* base, size_t n, size_t size,
                 int (*compar)(const void*, const void*));
-size_t CalcLinesCount(size_t* lines_count, const char* buffer, const size_t filesize);
+size_t CalcLinesCount(size_t* lines_count, const char* data, const size_t size);
 void PrintText(const struct OneginStr* text, const size_t lines_count);
 
 int main(void) {
@@ -67,7 +65,7 @@ int main(void) {
 
     BufferToText(&text, buffer);
 
-    BubbleSort(&text, lines_count, sizeof(text[0]), ReverseComparator);
+    BubbleSort(text, lines_count, sizeof(text[0]), ReverseComparator);
 
     PrintText(text, lines_count);
 
@@ -96,7 +94,7 @@ void BubbleSort(void* base, size_t n, size_t size,
 
     for (size_t line_1 = 0; line_1 < n - 1; line_1++) {
         for (size_t line_2 = 0; line_2 < n - line_1 - 1; line_2++) {
-            if (*compar((void*)((size_t)base + line_2 * size),
+            if (compar((void*)((size_t)base + line_2 * size),
                         (void*)((size_t)base + (line_2 + 1) * size)) > 0) {
                 Swap((void*)((size_t)base + line_2 * size),
                      (void*)((size_t)base + (line_2 + 1) * size));
@@ -106,11 +104,11 @@ void BubbleSort(void* base, size_t n, size_t size,
 }
 
 
-size_t CalcLinesCount(size_t* lines_count, const char* buffer, const size_t filesize) {
+size_t CalcLinesCount(size_t* lines_count, const char* data, const size_t size) {
     size_t count = 0;
 
-    for (size_t i = 0; i < filesize; i++) {
-        if (buffer[i] == '\n') {
+    for (size_t i = 0; i < size; i++) {
+        if (data[i] == '\n') {
             count++;
         }
     }

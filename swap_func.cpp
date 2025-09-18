@@ -1,3 +1,6 @@
+#include "line_struct.h"
+
+
 void Swap(void* ptr1, void* ptr2) {
     struct OneginStr* p1 = (struct OneginStr*)(ptr1);
     struct OneginStr* p2 = (struct OneginStr*)(ptr2);

@@ -1,6 +1,11 @@
+#include <ctype.h>
+
+#include "line_struct.h"
+
+
 int ReverseComparator(const void* ptr1, const void* ptr2) {
-    struct OneginStr* line1 = (struct OneginStr*)(ptr1);
-    struct OneginStr* line2 = (struct OneginStr*)(ptr2);
+    const struct OneginStr* line1 = (const struct OneginStr*)(ptr1);
+    const struct OneginStr* line2 = (const struct OneginStr*)(ptr2);
 
     char* str1 = line1 -> ptr;
     char* str2 = line2 -> ptr;
