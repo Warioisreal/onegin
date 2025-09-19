@@ -4,8 +4,10 @@
 
 #include "text_structs.h"
 #include "color_lib.h"
+#include "filename_lib.h"
 
 #include "comparator_func.h"
+#include "file_func.h"
 #include "output.h"
 #include "sort_func.h"
 #include "struct_pointer_array.h"
@@ -22,7 +24,10 @@
 
 int main(void) {
 
-    struct TextStorage textdata = {.filename = "onegin.txt"};
+    char inp_filename[MAX_FILENAME_LEN] = "";
+    GetFileName(inp_filename, DEFAULT_FILENAME_INPUT);
+
+    struct TextStorage textdata = {.filename = inp_filename};
     char* buffer = nullptr;
 
     int error = MakeTextStorage(&buffer, &textdata);
@@ -30,7 +35,11 @@ int main(void) {
     if (error) { return 1; }
 
     FILE* output_file = nullptr;
-    output_file = StartOutput(&output_file);
+
+    char output_filename[MAX_FILENAME_LEN] = "";
+    GetFileName(output_filename, DEFAULT_FILENAME_OUTPUT);
+
+    output_file = StartOutput(&output_file, output_filename);
 
     if (output_file == nullptr) { return 1; }
 

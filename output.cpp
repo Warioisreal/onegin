@@ -6,16 +6,15 @@
 #include "output.h"
 
 
-FILE* StartOutput(FILE** file) {
+FILE* StartOutput(FILE** file, const char* name) {
 
     assert (file != nullptr);
+    assert (name != nullptr);
 
-    const char* filename = "output.txt";
-
-    *file = fopen(filename, "wb");
+    *file = fopen(name, "wb");
 
     if (*file == nullptr) {
-        PrintColorVar(RED, "output file open error: \'%s\'\n", filename);
+        PrintColorVar(RED, "output file open error: \'%s\'\n", name);
         return nullptr;
     }
     return *file;

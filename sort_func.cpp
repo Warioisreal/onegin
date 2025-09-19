@@ -23,7 +23,7 @@ void BubbleSort(void* base, size_t n, size_t size,
             ptr1 = (void*)((size_t)base + line_2 * size);
             ptr2 = (void*)((size_t)base + (line_2 + 1) * size);
 
-            if (comp(ptr1, ptr2) > 0) { Swap(ptr1, ptr2, sizeof(size)); }
+            if (comp(ptr1, ptr2) > 0) { Swap(ptr1, ptr2, size); }
         }
     }
 }
@@ -38,14 +38,14 @@ static void Swap(void* ptr1, void* ptr2, size_t value_size) {
         return;
     }
 
-    void* buf_ptr = (void*)calloc(value_size, sizeof(char));
+    void* buf_ptr = (void*)calloc(1, value_size);
     if (buf_ptr == nullptr) {
         return;
     }
 
-    memcpy(buf_ptr, ptr1, value_size);
-    memcpy(ptr1, ptr2, value_size);
-    memcpy(ptr2, buf_ptr, value_size);
+    memcpy(buf_ptr, ptr1,    value_size);
+    memcpy(ptr1,    ptr2,    value_size);
+    memcpy(ptr2,    buf_ptr, value_size);
 
     free(buf_ptr);
     buf_ptr = nullptr;
