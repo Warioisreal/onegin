@@ -17,16 +17,18 @@ int MakeTextStorage(char** buf, struct TextStorage* data) {
     assert (buf  != nullptr);
     assert (data != nullptr);
 
+    const char* file_name = data->filename;
+
     struct stat file_stat;
-    if (stat(data->filename, &file_stat) != 0) {
+    if (stat(file_name, &file_stat) != 0) {
         PrintColor(RED, "filesize read error\n");
         return 1;
     }
 
     data->filesize = (size_t)(file_stat.st_size);
 
-    const char* file_name = data->filename;
-    size_t      file_size = data->filesize;
+
+    size_t file_size = data->filesize;
 
     FILE* file = fopen(file_name, "rb");
     if (file == nullptr) {
