@@ -4,7 +4,6 @@
 
 #include "text_structs.h"
 #include "color_lib.h"
-#include "filename_lib.h"
 
 #include "comparator_func.h"
 #include "file_func.h"
@@ -43,11 +42,11 @@ int main(void) {
 
     if (output_file == nullptr) { return 1; }
 
-    BubbleSort(textdata.text, textdata.lines_count, sizeof(struct LineParams), Comparator);
+    BubbleSort(textdata.text, textdata.lines_count, sizeof(struct LineParams), FromStartComparator);
 
     PrintText(output_file, textdata.text, textdata.lines_count);
 
-    qsort(textdata.text, textdata.lines_count, sizeof(struct LineParams), ReverseComparator);
+    qsort(textdata.text, textdata.lines_count, sizeof(struct LineParams), FromEndComparator);
 
     PrintText(output_file, textdata.text, textdata.lines_count);
 

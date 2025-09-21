@@ -25,22 +25,24 @@ int MakeTextStorage(char** buf, struct TextStorage* data) {
 
     data->filesize = (size_t)(file_stat.st_size);
 
-    FILE* file = fopen(data->filename, "rb");
+    const char* file_name = data->filename;
+    size_t      file_size = data->filesize;
+
+    FILE* file = fopen(file_name, "rb");
     if (file == nullptr) {
-        PrintColorVar(RED, "file open error: \'%s\'\n", data->filename);
+        PrintColorVar(RED, "file open error: \'%s\'\n", file_name);
         return 1;
     }
 
-    *buf = (char*)calloc((data->filesize) + 1, sizeof(char));
-
-    if (*buf == nullptr) {
+    char* buf_ = (char*)calloc(file_size + 1, sizeof(char));
+    if (buf_ == nullptr) {
         PrintColor(RED, "buffer calloc error\n");
         return 1;
     }
+    *buf = buf_;
 
-    size_t fread_filesize = fread(*buf, sizeof(char), data->filesize, file);
-
-    if (data->filesize > fread_filesize) {
+    size_t fread_filesize = fread(*buf, sizeof(char), file_size, file);
+    if (file_size > fread_filesize) {
         if (feof(file)) {                       // if reached EOF before filesize
             PrintColor(RED, "reached EOF\n");
         } else if (ferror(file)) {              // if had readfile error
@@ -53,23 +55,16 @@ int MakeTextStorage(char** buf, struct TextStorage* data) {
 
     fclose(file);
 
-    data->lines_count = CalcLinesCount(&(data->lines_count), *buf, data->filesize);
+    data->lines_count = CalcLinesCount(&(data->lines_count), *buf, file_size);
 
-    struct LineParams* buf_ptr = (struct LineParams*)calloc((data->lines_count) + 1, sizeof(struct LineParams));
-    if (buf_ptr == nullptr) {
-        PrintColor(RED, "data -> text calloc error\n");
-        return 1;
-    } else {
-        data->text = buf_ptr;
-    }
-
-    if (data->text == nullptr) {
+    struct LineParams* text_ = (struct LineParams*)calloc((data->lines_count) + 1, sizeof(struct LineParams));
+    if (text_ == nullptr) {
         PrintColor(RED, "data -> text calloc error\n");
         return 1;
     }
+    data->text = text_;
 
-    int transfer_result = BufferToText(&(data->text), *buf, data->filesize);
-
+    int transfer_result = BufferToText(&(data->text), *buf, file_size);
     if (transfer_result == 0) {
         PrintColor(RED, "transfer_result error\n");
         return 1;
@@ -84,7 +79,7 @@ void PrintText(FILE* file, const struct LineParams* text, const size_t lines_cou
     assert (file != nullptr);
     assert (text != nullptr);
 
-    fprintf(file, "---------sorted text-----------\n");
+    fprintf(file, "-------------------------------\n");
     for (size_t i = 0; i < lines_count; i++) {
         fprintf(file, "%s\n", text[i].ptr);
     }

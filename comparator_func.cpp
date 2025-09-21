@@ -6,7 +6,7 @@
 #include "comparator_func.h"
 
 
-int Comparator(const void* ptr1, const void* ptr2) {
+int FromStartComparator(const void* ptr1, const void* ptr2) {
 
     assert (ptr1 != nullptr);
     assert (ptr2 != nullptr);
@@ -25,8 +25,8 @@ int Comparator(const void* ptr1, const void* ptr2) {
     int cmpres = 0;
 
     while (pos1 < size1 && pos2 < size2) {
-        while (!isalpha(*(str1 + pos1)) && pos1 < size1) { pos1++; }
-        while (!isalpha(*(str2 + pos2)) && pos2 < size2) { pos2++; }
+        while (!isalpha(str1[pos1]) && pos1 < size1) { pos1++; }
+        while (!isalpha(str2[pos2]) && pos2 < size2) { pos2++; }
 
         cmpres = str1[pos1] - str2[pos2];
 
@@ -40,7 +40,7 @@ int Comparator(const void* ptr1, const void* ptr2) {
 }
 
 
-int ReverseComparator(const void* ptr1, const void* ptr2) {
+int FromEndComparator(const void* ptr1, const void* ptr2) {
 
     assert (ptr1 != nullptr);
     assert (ptr2 != nullptr);
@@ -56,12 +56,8 @@ int ReverseComparator(const void* ptr1, const void* ptr2) {
     int cmpres = 0;
 
     while (pos1 >= 0 && pos2 >= 0) {
-        while (!isalpha(str1[pos1]) && pos1 >= 0) {
-            pos1--;
-        }
-        while (!isalpha(str2[pos2]) && pos2 >= 0) {
-            pos2--;
-        }
+        while (!isalpha(str1[pos1]) && pos1 >= 0) { pos1--; }
+        while (!isalpha(str2[pos2]) && pos2 >= 0) { pos2--; }
 
         cmpres = str1[pos1] - str2[pos2];
 

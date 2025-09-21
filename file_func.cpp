@@ -3,7 +3,8 @@
 #include <assert.h>
 
 #include "color_lib.h"
-#include "filename_lib.h"
+
+#include "file_func.h"
 
 
 void GetFileName(char* filename, const char* def) {
