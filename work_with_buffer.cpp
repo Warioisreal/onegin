@@ -1,6 +1,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "color_lib.h"
 #include "text_structs.h"
 
 #include "work_with_buffer.h"
@@ -25,12 +26,16 @@ int BufferToText(struct LineParams** text, char* buffer, const size_t buf_size) 
             pos++;
         }
         *str_end = '\0';  // replace: \n -> \0
+
         str_start = str_end + 1;
         str_end   = strchr(str_start, '\n');
 
-        if (str_end > &buffer[buf_size - 1]) { return 0; }
+        if (str_end > &buffer[buf_size - 1]) {
+            PrintColor(RED, "transfer_result error\n");
+            return 1;
+        }
     }
-    return 1;
+    return 0;
 }
 
 

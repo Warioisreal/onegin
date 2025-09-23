@@ -12,14 +12,6 @@
 #include "struct_pointer_array.h"
 #include "work_with_buffer.h"
 
-/*
------------------testing different types of arrays------------------------
-              ----------**trash coding**-------------
-#include "test_pointer_array.h"
-#include "test_srectangle_array.h"
---------------------------------------------------------------------------
-*/
-
 
 int main(void) {
 
@@ -50,7 +42,7 @@ int main(void) {
 
     PrintText(output_file, textdata.text, textdata.lines_count);
 
-    PrintOrigText(output_file, buffer, textdata.lines_count);
+    PrintOriginalText(output_file, buffer, textdata.lines_count);
 
     DestroyTextStorage(&textdata);
 
@@ -58,11 +50,5 @@ int main(void) {
 
     FreeBuffer(&buffer);
 
-/*
------------------testing different types of arrays------------------------
-              ----------**trash coding**-------------
-
---------------------------------------------------------------------------
-*/
     return 0;
 }

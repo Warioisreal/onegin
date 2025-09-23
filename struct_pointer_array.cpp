@@ -11,8 +11,84 @@
 #include "struct_pointer_array.h"
 #include "work_with_buffer.h"
 
+static int CollectFileData(char** buf, struct TextStorage* data);
+
 
 int MakeTextStorage(char** buf, struct TextStorage* data) {
+
+    assert (buf  != nullptr);
+    assert (data != nullptr);
+
+    int error = CollectFileData(buf, data);
+    if (error) { return 1; }
+
+    size_t file_size = data->filesize;
+
+    data->lines_count = CalcLinesCount(&(data->lines_count), *buf, file_size);
+
+    struct LineParams* text_ = (struct LineParams*)calloc(data->lines_count + 1, sizeof(struct LineParams));
+    if (text_ == nullptr) {
+        PrintColor(RED, "data -> text calloc error\n");
+        return 1;
+    }
+    data->text = text_;
+
+    int transfer_error = BufferToText(&(data->text), *buf, file_size);
+    if (transfer_error) { return 1; }
+
+    return 0;
+}
+
+
+void PrintText(FILE* file, const struct LineParams* text, const size_t lines_count) {
+
+    assert (file != nullptr);
+    assert (text != nullptr);
+
+    fprintf(file, "-------------------------------\n");
+    for (size_t i = 0; i < lines_count; i++) {
+        fprintf(file, "%s\n", text[i].ptr);
+    }
+    fprintf(file, "-------------------------------\n");
+    fprintf(file, "\n");
+}
+
+
+void PrintOriginalText(FILE* file, const char* buf, const size_t lines_count) {
+
+    assert (buf  != nullptr);
+    assert (file != nullptr);
+
+    fprintf(file, "---------original text---------\n");
+    for (size_t line = 0; line < lines_count / LINES_COUNT_IN_STRF * ENTERS_COUNT_IN_STRF - 1; line++) {
+        while (*buf != 0) {
+            fputc(*buf, file);
+            buf++;
+        }
+        if (*buf == 0) {
+            fputc('\n', file);
+            buf++;
+        }
+    }
+    fprintf(file, "-------------------------------\n");
+}
+
+
+void DestroyTextStorage(struct TextStorage* data) {
+
+    assert (data != nullptr);
+
+    data->filename    = nullptr;
+    data->filesize    = 0;
+    data->lines_count = 0;
+
+    free(data->text);
+
+    data->text = nullptr;
+}
+
+
+static int CollectFileData(char** buf, struct TextStorage* data) {
 
     assert (buf  != nullptr);
     assert (data != nullptr);
@@ -57,68 +133,5 @@ int MakeTextStorage(char** buf, struct TextStorage* data) {
 
     fclose(file);
 
-    data->lines_count = CalcLinesCount(&(data->lines_count), *buf, file_size);
-
-    struct LineParams* text_ = (struct LineParams*)calloc((data->lines_count) + 1, sizeof(struct LineParams));
-    if (text_ == nullptr) {
-        PrintColor(RED, "data -> text calloc error\n");
-        return 1;
-    }
-    data->text = text_;
-
-    int transfer_result = BufferToText(&(data->text), *buf, file_size);
-    if (transfer_result == 0) {
-        PrintColor(RED, "transfer_result error\n");
-        return 1;
-    }
-
     return 0;
-}
-
-
-void PrintText(FILE* file, const struct LineParams* text, const size_t lines_count) {
-
-    assert (file != nullptr);
-    assert (text != nullptr);
-
-    fprintf(file, "-------------------------------\n");
-    for (size_t i = 0; i < lines_count; i++) {
-        fprintf(file, "%s\n", text[i].ptr);
-    }
-    fprintf(file, "-------------------------------\n");
-    fprintf(file, "\n");
-}
-
-
-void PrintOrigText(FILE* file, const char* buf, const size_t lines_count) {
-
-    assert (buf  != nullptr);
-    assert (file != nullptr);
-
-    fprintf(file, "---------original text---------\n");
-    for (size_t line = 0; line < lines_count / LINES_COUNT_IN_STRF * ENTERS_COUNT_IN_STRF - 1; line++) {
-        while (*buf != 0) {
-            fputc(*buf, file);
-            buf++;
-        }
-        if (*buf == 0) {
-            fputc('\n', file);
-            buf++;
-        }
-    }
-    fprintf(file, "-------------------------------\n");
-}
-
-
-void DestroyTextStorage(struct TextStorage* data) {
-
-    assert (data != nullptr);
-
-    data->filename    = nullptr;
-    data->filesize    = 0;
-    data->lines_count = 0;
-
-    free(data->text);
-
-    data->text = nullptr;
 }
